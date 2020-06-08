@@ -1,22 +1,27 @@
-module Phone (number) where
+module Phone
+  ( number
+  ) where
 
 import Data.Char (isDigit)
 
 validate :: String -> Maybe String
-validate xs
-  | len == 11 = if firstNumber == '1' then validate $ tail xs else Nothing
-  | len == 10 =
-    if firstNumber `elem` ['0', '1'] || fourthNumber `elem` ['0', '1'] then Nothing else
-      Just xs
-  | otherwise = Nothing
-
-  where len = length xs
-        firstNumber = head xs
-        fourthNumber = head $ drop 3 xs
+validate ('0':_) = Nothing
+validate ('1':_) = Nothing
+validate (_:_:_:'0':_) = Nothing
+validate (_:_:_:'1':_) = Nothing
+validate xs = Just xs
 
 clean :: String -> Maybe String
-clean xs = Just $ filter isDigit xs
+clean xs
+  | len == 11 =
+    if head filtered == '1'
+      then Just $ tail filtered
+      else Nothing
+  | len == 10 = Just filtered
+  | otherwise = Nothing
+  where
+    filtered = filter isDigit xs
+    len = length filtered
 
 number :: String -> Maybe String
 number input = clean input >>= validate
-
