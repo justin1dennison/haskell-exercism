@@ -1,20 +1,23 @@
 module Bob (responseFor) where
 
-import qualified Data.Char as C
+import Data.Char (isAlpha, isSpace, isUpper)
+
+isNotSpace :: Char -> Bool
+isNotSpace = not . isSpace
 
 responseFor :: String -> String
-responseFor xs 
+responseFor xs
   | isYelling xs && isQuestion xs = "Calm down, I know what I'm doing!"
-  | not (any (not . C.isSpace) xs) = "Fine. Be that way!"
+  | not (any isNotSpace xs) = "Fine. Be that way!"
   | isYelling xs = "Whoa, chill out!"
   | isQuestion xs = "Sure."
   | otherwise = "Whatever."
 
 isYelling :: String -> Bool
-isYelling xs  
+isYelling xs
   | null filtered = False
-  | otherwise =  all C.isUpper $ filter C.isAlpha xs
-  where filtered = filter C.isAlpha xs 
+  | otherwise = all isUpper filtered
+  where filtered = filter isAlpha xs
 
 isQuestion :: String -> Bool
-isQuestion xs = (== '?') $ last $ filter (not . C.isSpace) xs
+isQuestion xs = (== '?') $ last $ filter isNotSpace xs
