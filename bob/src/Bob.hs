@@ -7,13 +7,14 @@ isNotSpace = not . isSpace
 
 responseFor :: String -> String
 responseFor xs
+  | longSilence = "Fine. Be that way!"
   | yelled && questioned = "Calm down, I know what I'm doing!"
-  | not (any isNotSpace xs) = "Fine. Be that way!"
   | yelled = "Whoa, chill out!"
   | questioned = "Sure."
   | otherwise = "Whatever."
   where yelled = isYelling xs
         questioned = isQuestion xs
+        longSilence = not (any isNotSpace xs)
 
 isYelling :: String -> Bool
 isYelling xs = (not . null) filtered && all isUpper filtered
