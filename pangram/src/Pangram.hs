@@ -1,11 +1,14 @@
 module Pangram (isPangram) where
 
-import qualified Data.Char as C
-import qualified Data.Set as S
+import Data.Char (isAlpha, isAscii, toLower)
+import Data.Set (fromList)
+
+alphabet :: [Char]
+alphabet = ['a' .. 'z']
 
 isValid :: Char -> Bool
-isValid c = C.isAlpha c && C.isAscii c
+isValid c = isAlpha c && isAscii c
 
 isPangram :: String -> Bool
 isPangram text
-  = (== 26) $ length $ S.fromList $ map C.toLower $ filter isValid text
+  = (== length alphabet) $ length $ fromList $ map toLower $ filter isValid text
