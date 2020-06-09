@@ -16,9 +16,7 @@ responseFor xs
         questioned = isQuestion xs
 
 isYelling :: String -> Bool
-isYelling xs
-  | null filtered = False
-  | otherwise = all isUpper filtered
+isYelling xs = (not . null) filtered && all isUpper filtered
   where filtered = filter isAlpha xs
 
 isQuestion :: String -> Bool
