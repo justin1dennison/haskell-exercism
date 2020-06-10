@@ -1,10 +1,11 @@
 module CollatzConjecture (collatz) where
 
 collatz :: Integer -> Maybe Integer
-collatz n = if n <= 0 then Nothing else Just $ collatz' n
+collatz n
+  = if n <= 0 then Nothing else
+      Just $ toInteger $ length $ takeWhile (/= 1) $ iterate collatz' n
 
 collatz' :: Integer -> Integer
-collatz' 1 = 0
 collatz' n
-  | even n = (+ 1) $ collatz' $ div n 2
-  | otherwise = (+ 1) $ collatz' $ 3 * n + 1
+  | even n = div n 2
+  | otherwise = 3 * n + 1
