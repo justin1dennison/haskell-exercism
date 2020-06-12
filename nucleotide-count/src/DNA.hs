@@ -3,18 +3,15 @@ import qualified Data.List as L
 
 import Data.Map (Map)
 import qualified Data.Map as M
+import Text.Read (Read, readEither)
 
 data Nucleotide = A
                 | C
                 | G
-                | T deriving (Eq, Ord, Show)
+                | T deriving (Eq, Ord, Show, Read)
 
 encode :: Char -> Either String Nucleotide
-encode 'A' = Right A
-encode 'C' = Right C
-encode 'G' = Right G
-encode 'T' = Right T
-encode x = Left $ show x
+encode c = readEither [c]
 
 count :: [Nucleotide] -> Map Nucleotide Int
 count = M.fromList . map pair . L.group . L.sort
