@@ -1,0 +1,38 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 8c40a6fbd84a9104f33002bda509c5b931d1855bb399f3c3c493f6c377422cd8
+
+name:           armstrong-numbers
+version:        1.1.0.3
+build-type:     Simple
+
+library
+  exposed-modules:
+      ArmstrongNumbers
+  other-modules:
+      Paths_armstrong_numbers
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  build-depends:
+      base
+    , digits
+  default-language: Haskell2010
+
+test-suite test
+  type: exitcode-stdio-1.0
+  main-is: Tests.hs
+  other-modules:
+      Paths_armstrong_numbers
+  hs-source-dirs:
+      test
+  build-depends:
+      armstrong-numbers
+    , base
+    , digits
+    , hspec
+  default-language: Haskell2010
