@@ -1,19 +1,27 @@
 module WordCount (wordCount) where
 
-import Data.Char (isAlpha, isDigit, toLower)
+import Data.Char (isAlphaNum)
+import Data.Map.Strict (fromListWith, toList)
+import Data.Monoid
+import qualified Data.Text as T
 
-import qualified Data.Map as M
+shouldSplit :: Char -> Bool
+shouldSplit = getAll . foldMap (All .) predicates
+  where predicates = [not . isAlphaNum, (/= '\'')]
 
-removeSingleQuote :: String -> String
-removeSingleQuote word = (f . g) word
-  where quote = '\''
-        f s = if head s == quote then tail s else s
-        g s = if last s == quote then reverse $ tail $ reverse s else s
+isEmpty :: T.Text -> Bool
+isEmpty = (== 0) . T.length
 
-wordCount :: String -> [(String, Int)]
-wordCount xs = M.toList $ M.fromListWith (+) $ zip ws $ repeat 1
-  where ws = map removeSingleQuote $ words $ normalize xs
+combine :: [(T.Text, Int)] -> [(T.Text, Int)]
+combine = toList . fromListWith (+)
 
-normalize :: String -> String
-normalize xs = map (f . toLower) xs
-  where f c = if isAlpha c || isDigit c || c == '\'' then c else ' '
+wordCount :: T.Text -> [(T.Text, Int)]
+wordCount
+  = combine .
+      frequencies .
+        map (T.dropAround (== '\'')) .
+          filter (not . isEmpty) . T.split shouldSplit
+
+frequencies :: [T.Text] -> [(T.Text, Int)]
+frequencies xs = [(T.toLower x, 1) | x <- xs]
+

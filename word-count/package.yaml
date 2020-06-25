@@ -4,6 +4,8 @@ version: 1.4.0.8
 dependencies:
   - base
   - containers
+  - split
+  - text
 
 library:
   exposed-modules: WordCount
