@@ -14,12 +14,15 @@ isNotDigit = not . isDigit
 windows :: Int -> [a] -> [[a]]
 windows n = filter ((== n) . length) . transpose . take n . tails
 
+findInvalidDigit :: String -> Char
+findInvalidDigit = fromJust . find isNotDigit
+
 largestProduct :: Int -> String -> Either Error Integer
 largestProduct size digits
   | size == 0 = Right 1
-  | size > length digits || size < 0 = Left InvalidSpan
-  | any isNotDigit digits =
-    Left (InvalidDigit $ fromJust $ find isNotDigit digits)
-  | otherwise =
-    Right $
-      toInteger $ maximum $ map product $ windows size $ map digitToInt digits
+  | size < 0 = Left InvalidSpan
+  | size > length digits = Left InvalidSpan
+  | any isNotDigit digits = Left (InvalidDigit $ findInvalidDigit digits)
+  | otherwise = Right (findMaxProduct digits)
+  where products = map product . windows size . map digitToInt
+        findMaxProduct = toInteger . maximum . products
