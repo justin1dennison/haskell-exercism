@@ -1,0 +1,38 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.33.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 6d8c28da750e0a0949e59120033c66af808c26c1478948d25b9ed6fab9e035b8
+
+name:           largest-series-product
+version:        1.2.0.6
+build-type:     Simple
+
+library
+  exposed-modules:
+      Series
+  other-modules:
+      Paths_largest_series_product
+  hs-source-dirs:
+      src
+  ghc-options: -Wall
+  build-depends:
+      base
+    , split
+  default-language: Haskell2010
+
+test-suite test
+  type: exitcode-stdio-1.0
+  main-is: Tests.hs
+  other-modules:
+      Paths_largest_series_product
+  hs-source-dirs:
+      test
+  build-depends:
+      base
+    , hspec
+    , largest-series-product
+    , split
+  default-language: Haskell2010
